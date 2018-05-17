@@ -1,6 +1,6 @@
 # Ethereum IPFS Log
 
-A simple append only log of IPFS merkle dag objects in the Ethereum blockchain
+A simple append-only log of IPFS merkle dag objects in the Ethereum blockchain
 
 ## Index
 - [Motivations](#motivations)
@@ -12,13 +12,13 @@ A simple append only log of IPFS merkle dag objects in the Ethereum blockchain
 - [References](#references)
 
 ## Motivations
-  - To enable distributed applications with low frequency state change.
+  - To enable distributed applications with low-frequency state changes.
 
-  Ethereum IPFS Log attempts to leverge the strengths of a blockchain consensus algorithm, the data availablity of IPFS, and identity of PKI to provide a development stack for distibuted applications.
+  Ethereum IPFS Log attempts to leverage the strengths of a blockchain consensus algorithm, the data availability of IPFS, and identity of PKI to provide a development stack for distributed applications.
 
 ## Use Cases
   - Message logs:
-    Log messages for chat appliations that require low write speeds. e.g. a twitter post.
+    Log messages for chat applications that require low write speeds. e.g. a twitter post.
   - Proof of Knowledge:
     Publish a hash in an earlier block and later reveal what that data is to prove you had ownership of that data in the past
   - Proof of receipt:
@@ -31,13 +31,13 @@ A simple append only log of IPFS merkle dag objects in the Ethereum blockchain
 ## Logs
 
 
-#### Blockchains as an append only log
+#### Blockchains as an append-only log
 
-This is really making use of the fact that blockchains like bitcoin and ethereum are already append only logs. This provides a simple api to store arbitrary data in this log. 
+This is really making use of the fact that blockchains like bitcoin and ethereum are already append-only logs. This provides a simple API to store arbitrary data in this log. 
 
 #### Theory:
   
-A database (e.g. an SQL table) is a snapshot of a state arrived at by computing an ordered list of operations over time. The key problem here is how to understand time. Append only logs provide a nice linear data structure for distributed systems. Since logs are append only, where records are stored from left to right, the notion of "time" or "timestamping" is built into the structure. This is essential to handling merge conflicts in distributed systems where global clocks can't be relied upon to provide consistency.
+A database (e.g. an SQL table) is a snapshot of a state arrived at by computing an ordered list of operations over time. The key problem here is how to understand time. Append-only logs provide a nice linear data structure for distributed systems. Since logs are append-only, where records are stored from left to right, the notion of "time" or "timestamping" is built into the structure. This is essential to handling merge conflicts in distributed systems where global clocks can't be relied upon to provide consistency.
 
 Logs also provide nice properties for 
  - CRDTS
@@ -47,16 +47,16 @@ Logs also provide nice properties for
 
 #### Solidity Implementation:
 
-The append only log is a doubly linked list. Each node in the list is a mapping from ```<key> name => <struct> IPFS``` where ```IPFS``` is a struct memory block containing the ipfs hash of the repository and any other desired meta information. 
+The append-only log is a doubly linked list. Each node in the list is a mapping from ```<key> name => <struct> IPFS``` where ```IPFS``` is a struct memory block containing the ipfs hash of the repository and any other desired meta information. 
 
 
 
 
 ## Consensus
 
-Consensus is maintained by the Ethereum blockchain. This is currently using a PoW scheme but could one day be using another such as PoS. PoW chains like bitcoin and ethereum have been long describe as eventually consistent as it appears that miners forking and agreeing on the correct new blocks to add looks eventual. There have been ideas put forth recently that argue that we get more of a strong consistency from blockchains as reording of orphan blocks and forks probabily won't happen outside of the last six blocks.
+Consensus is maintained by the Ethereum blockchain. This is currently using a PoW scheme but could one day be using another such as PoS. PoW chains like bitcoin and ethereum have been long describe as eventually consistent as it appears that miners forking and agreeing on the correct new blocks to add looks eventual. There have been ideas put forth recently that argue that we get more of a strong consistency from blockchains as recording of orphan blocks and forks probably won't happen outside of the last six blocks.
 
-So with a decently strong consistency garuntee clients will agree upon the current head of the state of the application. With a log data structure built around communtitve CRDT properties, we can be sure that all updates will make it to all nodes in a fairly quick mannor (the block time / confirmation times of the blockchain used).
+So with a decently strong consistency guarantee clients will agree upon the current head of the state of the application. With a log data structure built around community CRDT properties, we can be sure that all updates will make it to all nodes in a fairly quick manner (the block time / confirmation times of the blockchain used).
 
 ## Challenges
   - blockchain scalability (tx / s)
